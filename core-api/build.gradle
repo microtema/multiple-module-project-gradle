@@ -1,13 +1,4 @@
-plugins {
-    id 'groovy'
-}
-
-group 'de.microtema'
-version '1.0-SNAPSHOT'
-
-repositories {
-
-}
+group 'de.microtema.gradle'
 
 dependencies {
 

@@ -1,18 +1,125 @@
-plugins {
-    id 'groovy'
+project.apply(plugin: GreetingPlugin)
+
+greeting {
+    message = 'Hi'
+    greeter = 'Gradle'
 }
-
-group 'de.microtema'
-version '1.0-SNAPSHOT'
-
 
 allprojects {
     repositories {
+        mavenLocal()
         mavenCentral()
         jcenter()
     }
 }
 
 subprojects {
+
+    group = 'de.microtema.gradle'
     version = '1.0-SNAPSHOT'
+    description = "The $project.name API for the application"
+
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    compileJava.options.encoding = 'utf-8'
+
+    publishing {
+        publications {
+            "$project.name"(MavenPublication) {
+                from components.java
+            }
+        }
+    }
+
+    task hello {
+
+        doFirst {
+            println "task: hello:doFirst -> $project.name"
+        }
+
+        doLast {
+            println "task: hello:doLast -> $project.name"
+            println "using build file '$buildFile.name' in '$buildFile.parentFile.name'."
+        }
+
+    }
+
+    hello.dependsOn({
+        tasks.findByName('bar')
+    })
+
+    task bar {
+
+        doFirst {
+            println "task: bar:doFirst -> $project.name"
+        }
+
+        doLast {
+            println "task: bar:doLast -> $project.name"
+        }
+    }
+
+    task world(dependsOn: hello) {
+
+        doFirst {
+            println "task: world:doFirst -> $project.name"
+        }
+
+        doLast {
+            println "task: world:doLast -> $project.name"
+        }
+
+    }
+
+    task copy(type: Copy) {
+
+        println "task: copy:doLast -> $project.name"
+
+        from './src/main/resources'
+        into 'target'
+    }
+}
+
+task foo {
+
+    doFirst {
+        println "task: foo:doFirst -> $project.name"
+    }
+
+    // body is always executed during configuration phase
+
+    doLast {
+        println "task: foo:doLast -> $project.name"
+    }
+}
+
+foo.onlyIf {
+    project.hasProperty('usingFoo')
+}
+
+class GreetingPlugin implements Plugin<Project> {
+
+    void apply(Project project) {
+
+        project.extensions.create("greeting", GreetingPluginExtension)
+
+        project.task('custom') {
+
+            doFirst {
+                println "task: hello:doFirst -> $project.name"
+            }
+
+            doLast {
+                println "task: hello:doLast -> $project.extensions.greeting.message $project.extensions.greeting.greeter"
+            }
+        }
+    }
+}
+
+class GreetingPluginExtension {
+    String message = 'Hello from'
+    String greeter = 'GreetingPlugin'
 }
