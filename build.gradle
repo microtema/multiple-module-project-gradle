@@ -1,8 +1,10 @@
-project.apply(plugin: GreetingPlugin)
-
-greeting {
-    message = 'Hi'
-    greeter = 'Gradle'
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.unbroken-dome.gradle-plugins:gradle-testsets-plugin:1.0.2'
+    }
 }
 
 allprojects {
@@ -21,6 +23,7 @@ subprojects {
 
     apply plugin: 'java'
     apply plugin: 'maven-publish'
+    apply plugin: 'org.unbroken-dome.test-sets'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -34,92 +37,30 @@ subprojects {
         }
     }
 
-    task hello {
+    dependencies {
 
-        doFirst {
-            println "task: hello:doFirst -> $project.name"
-        }
+        compile 'org.apache.commons:commons-lang3:3.9'
+        compile 'commons-io:commons-io:2.6'
 
-        doLast {
-            println "task: hello:doLast -> $project.name"
-            println "using build file '$buildFile.name' in '$buildFile.parentFile.name'."
-        }
-
-    }
-
-    hello.dependsOn({
-        tasks.findByName('bar')
-    })
-
-    task bar {
-
-        doFirst {
-            println "task: bar:doFirst -> $project.name"
-        }
-
-        doLast {
-            println "task: bar:doLast -> $project.name"
+        testCompile "junit:junit:4.12"
+        testCompile("de.7fate:model-builder:2.0.0") {
+            transitive = false
         }
     }
 
-    task world(dependsOn: hello) {
-
-        doFirst {
-            println "task: world:doFirst -> $project.name"
-        }
-
-        doLast {
-            println "task: world:doLast -> $project.name"
-        }
-
+    testSets {
+        integrationTest
     }
 
-    task copy(type: Copy) {
+    check.dependsOn integrationTest
+    integrationTest.mustRunAfter test
 
-        println "task: copy:doLast -> $project.name"
-
-        from './src/main/resources'
-        into 'target'
-    }
-}
-
-task foo {
-
-    doFirst {
-        println "task: foo:doFirst -> $project.name"
+    project.integrationTest {
+        outputs.upToDateWhen { false }
     }
 
-    // body is always executed during configuration phase
-
-    doLast {
-        println "task: foo:doLast -> $project.name"
+    tasks.withType(Test) {
+        reports.html.destination = file("${reporting.baseDir}/${name}")
     }
-}
 
-foo.onlyIf {
-    project.hasProperty('usingFoo')
-}
-
-class GreetingPlugin implements Plugin<Project> {
-
-    void apply(Project project) {
-
-        project.extensions.create("greeting", GreetingPluginExtension)
-
-        project.task('custom') {
-
-            doFirst {
-                println "task: hello:doFirst -> $project.name"
-            }
-
-            doLast {
-                println "task: hello:doLast -> $project.extensions.greeting.message $project.extensions.greeting.greeter"
-            }
-        }
-    }
-}
-
-class GreetingPluginExtension {
-    String message = 'Hello from'
-    String greeter = 'GreetingPlugin'
 }

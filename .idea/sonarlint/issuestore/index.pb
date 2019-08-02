@@ -24,3 +24,5 @@ q
 Acore-api/src/test/java/de/microtema/api/MessageServiceTest.groovy,1/1/118d40952a5bd78b2110e038c99dfcc261c090b0
 I
 core-impl/settings.gradle,4/c/4c133340cb448166859d9716fa02460581831782
+;
+gradlew.bat,2/a/2a45a911a8f1836b0b6c5b758962572012d8f8c3

@@ -1,4 +1,4 @@
-package de.microtema.api;
+package de.microtema.app;
 
 public class MessageService {
 
