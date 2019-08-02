@@ -24,6 +24,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
     apply plugin: 'org.unbroken-dome.test-sets'
+    apply plugin: 'jacoco'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -62,5 +63,33 @@ subprojects {
     tasks.withType(Test) {
         reports.html.destination = file("${reporting.baseDir}/${name}")
     }
+
+    test {
+        afterTest { desc, result ->
+            println "Executing test [${desc.className}].${desc.name} with result: ${result.resultType}"
+        }
+    }
+    integrationTest {
+        afterTest { desc, result ->
+            println "Executing test [${desc.className}].${desc.name} with result: ${result.resultType}"
+        }
+    }
+
+    jacoco {
+        toolVersion = "0.7.5.201505241946"
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.enabled false
+            csv.enabled false
+            html{
+                enabled true
+            }
+        }
+        executionData(test, integrationTest)
+    }
+
+    tasks.build.dependsOn(jacocoTestReport)
 
 }

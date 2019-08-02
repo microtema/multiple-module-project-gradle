@@ -1,6 +1,10 @@
-### Why should I separate unit tests and integration tests?
+### Separating Unit from Integration tests in Java using Gradle
 
-In general: <br>yes</b>, you should put integration tests and unit tests into different folders. Often, there isn't a clear line between these two kinds of tests and just write whatever kind of test is useful. But integration tests tend to be slower, because they often involve:
+##### Should I separate unit tests and integration tests?
+
+In general: <b>yes</b>, 
+
+we should put unit tests and integration tests into different folders. Often, there isn't a clear line between these two kinds of tests and just write whatever kind of test is useful. But integration tests tend to be slower, because they often involve:
 
 * Database queries
 * Network requests
@@ -8,17 +12,19 @@ In general: <br>yes</b>, you should put integration tests and unit tests into di
 * Large amounts of data
 * Boot partially or full Application (Servlet Container)
 
-In contrast, an unit test would mock any expensive operations, so unit tests tend to run quickly (in fact, the slowest part of running the test is often the test framework itself).
+In contrast, an unit test would mock any expensive operations, so unit tests tend to run quickly.
 
 Whatever allows a programmer to get feedback quickly is good.
 
-Considering the Test Pyramid:
+Considering the Test Pyramid
 ![Test Pyramid](https://www.360logica.com/blog/wp-content/uploads/2014/07/A-sneak-peek-into-test-framework-test-pyramid-testing-pyramid.png)
 
 we should have: 
 * 60% Unit Tests
 * 30% Component-, Integration- and API-Tests
 * 10% GUI Tests
+
+There are many ways how this can be done.
 
 ### Separating Unit from Integration tests in Java using Gradle
  
@@ -109,3 +115,51 @@ we should have:
 >  At this point you should be able to run *gradle clean build* and see your separate test and integrationTest related tasks execute.
 
 ***
+
+> <b>Real time test reporting</b>.
+  To see a visual report of test execution and outcome as it happens in the console, add the following
+  
+ ```
+ test {
+     afterTest { desc, result ->
+         println "Executing test [${desc.className}].${desc.name} with result: ${result.resultType}"
+     }
+ }
+ integrationTest {
+     afterTest { desc, result ->
+         println "Executing test [${desc.className}].${desc.name} with result: ${result.resultType}"
+     }
+ }
+ ```
+ 
+ ***
+ 
+ > <b>apply plugin: jacoco</b>.
+ Using Jacoco for test coverage with the help of the Jacoco gradle plugin. While it would be ideal to have separate test coverage for integration and unit test suites in separate reports I was unable to find a simple method to generate them independently. However you can combine the coverage from both suites with the following;
+ 
+```
+apply plugin: 'jacoco'  
+.....
+
+jacoco {
+    toolVersion = "0.7.5.201505241946"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html{
+            enabled true
+        }
+    }
+    executionData(test, integrationTest)
+}
+
+tasks.build.dependsOn(jacocoTestReport)
+```
+
+> The separation of test types has many benefits including:
+
+* Forcing developers to think about test types and purpose enforcing unit test conventions. 
+* Fail fast unit tests from potentially costly integration tests allowing finer control over CI builds and development process.
