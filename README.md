@@ -1,4 +1,4 @@
-###Why should I separate unit tests and integration tests?
+### Why should I separate unit tests and integration tests?
 
 In general: <br>yes</b>, you should put integration tests and unit tests into different folders. Often, there isn't a clear line between these two kinds of tests and just write whatever kind of test is useful. But integration tests tend to be slower, because they often involve:
 
@@ -11,9 +11,13 @@ In general: <br>yes</b>, you should put integration tests and unit tests into di
 In contrast, an unit test would mock any expensive operations, so unit tests tend to run quickly (in fact, the slowest part of running the test is often the test framework itself).
 
 Whatever allows a programmer to get feedback quickly is good.
+Considering the Test Pyramid:
+![Test Pyramid](https://www.360logica.com/blog/wp-content/uploads/2014/07/A-sneak-peek-into-test-framework-test-pyramid-testing-pyramid.png)
 
-Reference-style: 
-![Test Pyramid][https://www.360logica.com/blog/wp-content/uploads/2014/07/A-sneak-peek-into-test-framework-test-pyramid-testing-pyramid.png]
+we should have: 
+* 60% Unit Tests
+* 30% Component-, Integration- and API-Tests
+* 10% GUI Tests
 
 ### Separating Unit from Integration tests in Java using Gradle
  
