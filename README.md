@@ -1,6 +1,7 @@
 ### Separating Unit from Integration tests in Java using Gradle
 
-##### Should I separate unit tests and integration tests?
+##### Question: 
+Should I separate unit tests and integration tests?
 
 In general: <b>yes</b>, 
 
@@ -16,8 +17,8 @@ In contrast, an unit test would mock any expensive operations, so unit tests ten
 
 Whatever allows a programmer to get feedback quickly is good.
 
-Considering the Test Pyramid
-![Test Pyramid](https://www.360logica.com/blog/wp-content/uploads/2014/07/A-sneak-peek-into-test-framework-test-pyramid-testing-pyramid.png)
+In his ![blog](https://martinfowler.com/bliki/TestPyramid.html), Martin Fowler described the following pyramid
+![Test Pyramid](https://martinfowler.com/bliki/images/testPyramid/test-pyramid.png)
 
 we should have: 
 * 60% Unit Tests
@@ -161,5 +162,6 @@ tasks.build.dependsOn(jacocoTestReport)
 
 > The separation of test types has many benefits including:
 
+* <b>Fail fast</b> unit tests from potentially costly integration tests allowing finer control over CI builds and development process.
+* Done right, unit tests <b>speed up</b> the development cycles.
 * Forcing developers to think about test types and purpose enforcing unit test conventions. 
-* Fail fast unit tests from potentially costly integration tests allowing finer control over CI builds and development process.
