@@ -11,6 +11,7 @@ In general: <br>yes</b>, you should put integration tests and unit tests into di
 In contrast, an unit test would mock any expensive operations, so unit tests tend to run quickly (in fact, the slowest part of running the test is often the test framework itself).
 
 Whatever allows a programmer to get feedback quickly is good.
+
 Considering the Test Pyramid:
 ![Test Pyramid](https://www.360logica.com/blog/wp-content/uploads/2014/07/A-sneak-peek-into-test-framework-test-pyramid-testing-pyramid.png)
 
