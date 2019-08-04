@@ -1,5 +1,3 @@
-group 'de.microtema.gradle'
-
 dependencies {
     
 }

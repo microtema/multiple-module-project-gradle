@@ -1,4 +1,4 @@
-package de.microtema.app;
+package de.microtema.server;
 
 import de.seven.fate.model.builder.annotation.Inject;
 import de.seven.fate.model.builder.annotation.Model;
@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class MessageServiceTest {
 
     @Inject
-    MessageService sut;
+    MessageServiceImpl sut;
 
     @Model
     String message;
@@ -32,4 +32,6 @@ public class MessageServiceTest {
 
         assertEquals("Hello " + message, sut.formatMessage(message));
     }
+
+    static public class MessageServiceImpl implements MessageService{}
 }
