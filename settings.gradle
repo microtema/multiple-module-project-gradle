@@ -2,4 +2,3 @@ rootProject.name = 'multiple-module-project-gradle'
 
 include 'core-api'
 include 'core-impl'
-include 'core-server'
