@@ -1,10 +1,5 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'org.unbroken-dome.gradle-plugins:gradle-testsets-plugin:1.0.2'
-    }
+plugins {
+    id "org.unbroken-dome.test-sets" version "3.0.1"
 }
 
 allprojects {
@@ -23,6 +18,7 @@ subprojects {
 
     apply plugin: 'java'
     apply plugin: 'maven-publish'
+    apply plugin: 'java-library'
     apply plugin: 'org.unbroken-dome.test-sets'
     apply plugin: 'jacoco'
 
@@ -40,27 +36,33 @@ subprojects {
 
     dependencies {
 
-        compile 'org.apache.commons:commons-lang3:3.9'
-        compile 'commons-io:commons-io:2.6'
+        implementation 'org.apache.commons:commons-lang3:3.9'
+        implementation 'commons-io:commons-io:2.6'
 
-        testCompile "junit:junit:4.12"
-        testCompile("de.7fate:model-builder:2.0.0") {
-            transitive = false
-        }
+        compileOnly 'org.projectlombok:lombok:1.18.16'
+        annotationProcessor 'org.projectlombok:lombok:1.18.16'
+
+        testImplementation 'org.junit.jupiter:junit-jupiter:5.4.2'
+
+        testImplementation 'de.microtema:model-builder:2.5.0'
+
+        testCompileOnly 'org.projectlombok:lombok:1.18.16'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
     }
 
     testSets {
         integrationTest
     }
 
-    check.dependsOn integrationTest
+    check.dependsOn test, integrationTest
     integrationTest.mustRunAfter test
 
-    project.integrationTest {
+    integrationTest {
         outputs.upToDateWhen { false }
     }
 
     tasks.withType(Test) {
+        useJUnitPlatform() // Make all tests use JUnit 5
         reports.html.destination = file("${reporting.baseDir}/${name}")
     }
 
@@ -69,6 +71,7 @@ subprojects {
             println "Executing test [${desc.className}].${desc.name} with result: ${result.resultType}"
         }
     }
+
     integrationTest {
         afterTest { desc, result ->
             println "Executing test [${desc.className}].${desc.name} with result: ${result.resultType}"
@@ -76,20 +79,19 @@ subprojects {
     }
 
     jacoco {
-        toolVersion = "0.7.5.201505241946"
+        toolVersion = "0.8.5"
     }
 
     jacocoTestReport {
         reports {
             xml.enabled false
             csv.enabled false
-            html{
+            html {
                 enabled true
             }
         }
         executionData(test, integrationTest)
     }
 
-    tasks.build.dependsOn(jacocoTestReport)
-
+    tasks.build.dependsOn jacocoTestReport
 }

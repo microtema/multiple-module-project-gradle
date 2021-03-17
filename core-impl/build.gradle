@@ -1,4 +1,3 @@
 dependencies {
-
-    compile project(':core-api')
+    api project(':core-api')
 }

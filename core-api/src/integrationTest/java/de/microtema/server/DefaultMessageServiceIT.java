@@ -1,14 +1,15 @@
-package de.microtema.impl;
+package de.microtema.server;
 
 import de.microtema.model.builder.annotation.Inject;
 import de.microtema.model.builder.annotation.Model;
 import de.microtema.model.builder.util.FieldInjectionUtil;
+import de.microtema.server.service.DefaultMessageService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class DefaultMessageServiceTest {
+class DefaultMessageServiceIT {
 
     @Inject
     DefaultMessageService sut;
@@ -17,20 +18,12 @@ class DefaultMessageServiceTest {
     String message;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         FieldInjectionUtil.injectFields(this);
     }
 
     @Test
-    void formatMessageWithNullArg() {
-
-        String answer = sut.formatMessage(null);
-
-        assertEquals("Default null", answer);
-    }
-
-    @Test
-    void formatMessage() {
+    void test() {
 
         String answer = sut.formatMessage(message);
 

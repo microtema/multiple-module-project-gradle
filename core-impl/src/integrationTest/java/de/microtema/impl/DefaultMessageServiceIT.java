@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class DefaultMessageServiceTest {
+
+class DefaultMessageServiceIT {
 
     @Inject
     DefaultMessageService sut;
@@ -17,7 +18,7 @@ class DefaultMessageServiceTest {
     String message;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         FieldInjectionUtil.injectFields(this);
     }
 

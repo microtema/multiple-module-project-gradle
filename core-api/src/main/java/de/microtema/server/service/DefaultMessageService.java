@@ -1,6 +1,4 @@
-package de.microtema.impl;
-
-import de.microtema.server.service.MessageService;
+package de.microtema.server.service;
 
 public class DefaultMessageService implements MessageService {
 
