@@ -38,11 +38,15 @@ subprojects {
 
         implementation 'org.apache.commons:commons-lang3:3.9'
         implementation 'commons-io:commons-io:2.6'
+        implementation 'javax.validation:validation-api:2.0.1.Final'
 
         compileOnly 'org.projectlombok:lombok:1.18.16'
         annotationProcessor 'org.projectlombok:lombok:1.18.16'
 
         testImplementation 'org.junit.jupiter:junit-jupiter:5.4.2'
+        testImplementation 'org.mockito:mockito-core:2.1.0'
+
+        testImplementation'org.mockito:mockito-junit-jupiter:2.23.4'
 
         testImplementation 'de.microtema:model-builder:2.5.0'
 
