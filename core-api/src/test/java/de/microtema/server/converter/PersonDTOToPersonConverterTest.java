@@ -1,6 +1,5 @@
 package de.microtema.server.converter;
 
-import de.microtema.model.builder.annotation.Inject;
 import de.microtema.model.builder.annotation.Model;
 import de.microtema.model.builder.util.FieldInjectionUtil;
 import de.microtema.server.dto.PersonDTO;
