@@ -17,13 +17,19 @@ In contrast, an unit test would mock any expensive operations, so unit tests ten
 
 Whatever allows a programmer to get feedback quickly is good.
 
-In his ![blog](https://martinfowler.com/bliki/TestPyramid.html), Martin Fowler described the following pyramid
+In his ![blog](https://martinfowler.com/articles/practical-test-pyramid.html), Martin Fowler described the following pyramid
 ![Test Pyramid](https://martinfowler.com/bliki/images/testPyramid/test-pyramid.png)
 
 we should have: 
 * 60% Unit Tests
 * 30% Component-, Integration- and API-Tests
 * 10% GUI Tests
+
+Building, testing and deploying an ever-increasing amount of software manually soon becomes impossible 
+— unless you want to spend all your time with manual, repetitive work instead of delivering working software. 
+Automating everything — from build to tests, deployment and infrastructure — is your only way forward.
+
+![Build Pipeline](https://martinfowler.com/articles/practical-test-pyramid/buildPipeline.png)
 
 There are many ways how this can be done.
 
