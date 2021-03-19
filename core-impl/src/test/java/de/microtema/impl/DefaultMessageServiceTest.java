@@ -26,7 +26,7 @@ class DefaultMessageServiceTest {
 
         String answer = sut.formatMessage(null);
 
-        assertEquals("Default null", answer);
+        assertEquals("Custom null", answer);
     }
 
     @Test
@@ -34,6 +34,6 @@ class DefaultMessageServiceTest {
 
         String answer = sut.formatMessage(message);
 
-        assertEquals("Default " + message, answer);
+        assertEquals("Custom " + message, answer);
     }
 }

@@ -6,7 +6,6 @@ allprojects {
     repositories {
         mavenLocal()
         mavenCentral()
-        jcenter()
     }
 }
 
@@ -16,9 +15,8 @@ subprojects {
     version = '1.0-SNAPSHOT'
     description = "The $project.name API for the application"
 
-    apply plugin: 'java'
-    apply plugin: 'maven-publish'
     apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
     apply plugin: 'org.unbroken-dome.test-sets'
     apply plugin: 'jacoco'
 
@@ -28,7 +26,7 @@ subprojects {
 
     publishing {
         publications {
-            "$project.name"(MavenPublication) {
+            maven(MavenPublication) {
                 from components.java
             }
         }
@@ -45,9 +43,7 @@ subprojects {
 
         testImplementation 'org.junit.jupiter:junit-jupiter:5.4.2'
         testImplementation 'org.mockito:mockito-core:2.1.0'
-
         testImplementation'org.mockito:mockito-junit-jupiter:2.23.4'
-
         testImplementation 'de.microtema:model-builder:2.5.0'
 
         testCompileOnly 'org.projectlombok:lombok:1.18.16'
